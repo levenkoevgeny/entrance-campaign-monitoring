@@ -75,7 +75,7 @@ axiosInstance.interceptors.response.use(
   },
 )
 
-const app = createApp(App).use(router)
+const app = createApp(App).use(router).use(store)
 
 app.config.globalProperties.$axios = axiosInstance
 
