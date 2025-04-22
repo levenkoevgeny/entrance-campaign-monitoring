@@ -1,32 +1,47 @@
 import { createRouter, createWebHistory } from "vue-router"
 import Monitoring from "@/components/monitoring/Monitoring.vue"
 import KioskPage from "@/components/electronic_queue/KioskPage.vue"
+import QueueMonitoringView from "@/components/electronic_queue/QueueMonitoringView.vue"
+import QueueProcessingView from "@/components/electronic_queue/QueueProcessingView.vue"
+import AdminQueueListView from "@/components/electronic_queue/AdminQueueListView.vue"
+
+import LoginView from "@/components/auth/LoginView.vue"
 import store from "@/store/index.js"
 
 const routes = [
   {
+    path: "/login",
+    name: "login",
+    component: LoginView,
+    meta: { requiresAuth: false },
+  },
+
+  {
     path: "",
     name: "monitoring",
     component: Monitoring,
-    // children: [
-    //     {
-    //         path: "navigation",
-    //         name: "navigation",
-    //         component: NavigationPage,
-    //     },
-    // ],
   },
   {
     path: "/kiosk",
     name: "kiosk",
     component: KioskPage,
-    // children: [
-    //     {
-    //         path: "navigation",
-    //         name: "navigation",
-    //         component: NavigationPage,
-    //     },
-    // ],
+  },
+  {
+    path: "/queue-monitoring",
+    name: "queue-monitoring",
+    component: QueueMonitoringView,
+  },
+  {
+    path: "/queue-list",
+    name: "queue-list",
+    component: AdminQueueListView,
+    meta: { requiresAuth: true },
+  },
+  {
+    path: "/queue-list:id/processing",
+    component: QueueProcessingView,
+    name: "queue-processing",
+    meta: { requiresAuth: true },
   },
 
   // {

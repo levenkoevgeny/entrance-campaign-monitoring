@@ -1,4 +1,5 @@
 import BaseAPI from "@/api/baseAPIClass"
+import { axiosInstance as axios } from "@/main.js"
 
 class ticketAPI extends BaseAPI {}
 
