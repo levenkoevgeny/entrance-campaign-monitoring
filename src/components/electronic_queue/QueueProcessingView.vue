@@ -15,7 +15,25 @@
       <button class="btn btn-primary" @click="getNextTicketToProcess">
         Вызвать следующего
       </button>
-      {{ ticketList }}
+
+      <table>
+        <thead></thead>
+        <tbody>
+          <tr v-for="ticket in ticketList.results">
+            <td>{{ ticket.ticket_number_verbose }}</td>
+            <td>
+              {{
+                new Date(ticket.date_time_created).toLocaleString("ru-RU", {
+                  day: "numeric",
+                  month: "long",
+                  year: "numeric",
+                })
+              }}
+            </td>
+            <td><button class="btn btn-danger">Завершить</button></td>
+          </tr>
+        </tbody>
+      </table>
     </div>
   </div>
 </template>
