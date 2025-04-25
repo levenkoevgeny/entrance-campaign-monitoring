@@ -12,6 +12,15 @@
   <div v-else>
     <div class="container">
       <div class="my-5"></div>
+      <div class="my-5">
+        <button
+          class="btn btn-primary"
+          @click="$router.push({ name: 'queue-list' })"
+        >
+          Вернуться к списку очередей
+        </button>
+      </div>
+
       <button class="btn btn-primary" @click="getNextTicketToProcess">
         Вызвать следующего
       </button>
@@ -49,6 +58,7 @@ export default {
   components: { NavigationLayout },
   data() {
     return {
+      currentQueue: null,
       ticketList: { count: 0, results: [], previous: null, next: null },
       isLoading: true,
       isError: false,

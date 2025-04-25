@@ -11,9 +11,10 @@
   </div>
   <div v-else>
     <div class="container">
-      <div class="my-5">
+      <h1 class="my-3">Выберите очередь для работы</h1>
+      <div class="my-5 d-flex flex-row">
         <button
-          class="btn btn-primary"
+          class="btn btn-primary mx-3 fs-5"
           v-for="queue in queueList.results"
           :key="queue.id"
           @click="

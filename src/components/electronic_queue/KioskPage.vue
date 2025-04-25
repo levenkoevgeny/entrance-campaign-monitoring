@@ -26,7 +26,7 @@
         >
           <button
             class="btn btn-primary"
-            style="height: 20vh; width: 30vw; font-size: 100px"
+            style="height: 20vh; width: 30vw; font-size: 70px"
             @click="getNextFreeTicket(queueList.results[0].id)"
           >
             {{ queueList.results[0].queue_name }}
@@ -43,6 +43,7 @@
             style="height: 20vh; width: 30vw"
             v-for="queue in queueList.results"
             :key="queue.id"
+            @click="getNextFreeTicket(queue.id)"
           >
             {{ queue.queue_name }}
           </button>
@@ -91,6 +92,10 @@ export default {
         `${import.meta.env.VITE_APP_BACKEND_PROTOCOL}://${import.meta.env.VITE_APP_BACKEND_HOST}:${import.meta.env.VITE_APP_BACKEND_PORT}/api/queues/${queueId}/get_next_free_ticket/`,
       )
       this.freeTicket = response.data
+      setTimeout(() => {
+        print()
+      }, 500)
+
       this.interval = setTimeout(() => {
         this.freeTicket = null
         this.interval = null

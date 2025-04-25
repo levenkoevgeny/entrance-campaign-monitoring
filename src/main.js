@@ -30,37 +30,6 @@ axiosInstance.interceptors.response.use(
       return Promise.reject(error)
     }
     switch (error.response.status) {
-      case 401:
-        if (error.response.data.code) {
-          store.commit("errors/setErrorList", {
-            errorCode: "token_not_valid",
-            errorStatus: error.status,
-            errorMessage: "Ошибка авторизации",
-          })
-        } else {
-          store.commit("errors/setErrorList", {
-            errorStatus: error.status,
-            errorMessage: "Ошибка авторизации",
-          })
-        }
-
-        await store.dispatch("auth/actionRemoveLogIn")
-        await router.replace({ name: "login" })
-        break
-      case 403:
-        store.commit("errors/setErrorList", {
-          errorStatus: error.status,
-          errorMessage: "У Вас нет прав для просмотра этого ресурса",
-        })
-        await store.dispatch("auth/actionRemoveLogIn")
-        await router.replace({ name: "login" })
-        break
-      case 404:
-        store.commit("errors/setErrorList", {
-          errorStatus: error.status,
-          errorMessage: "URL Not found",
-        })
-        return Promise.reject(error)
       case 500:
         await router.replace({ name: "server-error" })
         break
