@@ -25,11 +25,6 @@ const routes = [
   //     component: NetworkErrorView,
   //     name: "network-error",
   // },
-  // {
-  //     path: "/server-error",
-  //     component: ServerErrorView,
-  //     name: "server-error",
-  // },
 ]
 
 const router = createRouter({
