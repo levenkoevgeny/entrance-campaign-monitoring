@@ -2,11 +2,6 @@ import { createRouter, createWebHistory } from "vue-router"
 import Monitoring from "@/components/monitoring/Monitoring.vue"
 import KioskPage from "@/components/electronic_queue/KioskPage.vue"
 import QueueMonitoringView from "@/components/electronic_queue/QueueMonitoringView/QueueMonitoringView.vue"
-import QueueProcessingView from "@/components/electronic_queue/QueueProcessingView.vue"
-import AdminQueueListView from "@/components/electronic_queue/AdminQueueListView.vue"
-
-import LoginView from "@/components/auth/LoginView.vue"
-import store from "@/store/index.js"
 
 const routes = [
   {
