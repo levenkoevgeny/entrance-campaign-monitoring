@@ -94,12 +94,12 @@ export default {
       this.freeTicket = response.data
       setTimeout(() => {
         print()
-      }, 500)
+      }, 200)
 
       this.interval = setTimeout(() => {
         this.freeTicket = null
         this.interval = null
-      }, 5000)
+      }, 3000)
       this.isLoading = false
     },
   },
