@@ -2,13 +2,20 @@ import { createRouter, createWebHistory } from "vue-router"
 import Monitoring from "@/components/monitoring/Monitoring.vue"
 import KioskPage from "@/components/electronic_queue/KioskPage.vue"
 import QueueMonitoringView from "@/components/electronic_queue/QueueMonitoringView/QueueMonitoringView.vue"
+import StartPage from "@/components/StartPage.vue"
 
 const routes = [
   {
     path: "",
+    name: "start-page",
+    component: StartPage,
+  },
+  {
+    path: "/monitoring",
     name: "monitoring",
     component: Monitoring,
   },
+
   {
     path: "/kiosk",
     name: "kiosk",

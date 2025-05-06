@@ -14,8 +14,12 @@
         style="height: 100vh"
         class="d-flex justify-content-center align-items-center flex-column"
       >
-        <h1 style="font-size: 100px">Ваш номер талона</h1>
-        <h1 style="font-size: 200px">{{ freeTicket.ticket_number_verbose }}</h1>
+        <h1 style="font-size: 100px" class="fw-bold">Название очереди</h1>
+        <h1 style="font-size: 100px">Ваша позиция в очереди</h1>
+        <!--        <h1 style="font-size: 200px">{{ freeTicket.ticket_number_verbose }}</h1>-->
+        <h1 style="font-size: 200px">2</h1>
+        <h1>Перед Вами - x человек</h1>
+        <h1>Дата и время</h1>
       </div>
     </div>
     <div v-else>
@@ -26,8 +30,9 @@
         >
           <button
             class="btn btn-primary"
-            style="height: 20vh; width: 30vw; font-size: 70px"
+            style="height: 20vh; width: 30vw; font-size: 250%"
             @click="getNextFreeTicket(queueList.results[0].id)"
+            :disabled="isLoading"
           >
             {{ queueList.results[0].queue_name }}
           </button>
@@ -43,6 +48,7 @@
             style="height: 20vh; width: 30vw"
             v-for="queue in queueList.results"
             :key="queue.id"
+            :disabled="isLoading"
             @click="getNextFreeTicket(queue.id)"
           >
             {{ queue.queue_name }}
@@ -94,12 +100,14 @@ export default {
       this.freeTicket = response.data
       setTimeout(() => {
         print()
-      }, 500)
-
-      this.interval = setTimeout(() => {
         this.freeTicket = null
         this.interval = null
-      }, 5000)
+      }, 100)
+
+      // this.interval = setTimeout(() => {
+      //   this.freeTicket = null
+      //   this.interval = null
+      // }, 4000)
       this.isLoading = false
     },
   },
