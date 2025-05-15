@@ -41,39 +41,68 @@ export default {
       BACKEND_PROTOCOL: import.meta.env.VITE_APP_BACKEND_PROTOCOL,
       BACKEND_HOST: import.meta.env.VITE_APP_BACKEND_HOST,
       BACKEND_PORT: import.meta.env.VITE_APP_BACKEND_PORT,
-      interval: null,
       currentTime: new Date(),
+      utterance: new SpeechSynthesisUtterance(),
+      voice_15: window.speechSynthesis.getVoices()[100],
+      timeInterval: null,
+      loadDataInterval: null,
+      // speechSynthesis: window.speechSynthesis,
+      // voiceText: "",
     }
   },
   async created() {
-    setInterval(() => {
+    this.timeInterval = setInterval(() => {
       this.currentTime = new Date()
     }, 1000)
+
     await this.loadData()
-    setInterval(async () => {
+    this.loadDataInterval = setInterval(async () => {
       await this.loadData()
     }, 5000)
+  },
+  unmounted() {
+    clearInterval(this.timeInterval)
+    clearInterval(this.loadDataInterval)
   },
   methods: {
     async loadData() {
       this.isLoading = true
-
       let oldTicketList = this.ticketsList.results
-
       const response = await axios(
         `${this.BACKEND_PROTOCOL}://${this.BACKEND_HOST}:${this.BACKEND_PORT}/api/tickets/?ticket_state=1`,
       )
-
       const newListFromServer = response.data
       this.ticketsList = newListFromServer
-
+      let voice_text = ""
       newListFromServer.results.map((item) => {
         if (!this.checkIfTicketListIncludeItem(oldTicketList, item)) {
           item.isNewTicket = true
+          // voice_text =
+          //   voice_text +
+          //   item.ticket_number_verbose +
+          //   " к окну " +
+          //   item.get_operator_workplace +
+          //   ". "
         }
       })
+
+      this.voiceText = voice_text
+      // this.speak()
       this.isLoading = false
     },
+    // speak() {
+    //   // console.log("speak")
+    //   //
+    //   // console.log(window.speechSynthesis.getVoices())
+    //
+    //   this.utterance.lang = "ru-RU"
+    //   this.utterance.voice = this.voice_15
+    //   this.utterance.text = this.voiceText
+    //   console.log(this.voiceText)
+    //
+    //   this.speechSynthesis.speak(this.utterance)
+    // },
+
     checkIfTicketListIncludeItem(checkingArray, checkingItem) {
       return (
         checkingArray.filter((item) => item.id === checkingItem.id).length > 0

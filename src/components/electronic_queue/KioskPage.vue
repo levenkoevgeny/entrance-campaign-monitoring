@@ -14,12 +14,24 @@
         style="height: 100vh"
         class="d-flex justify-content-center align-items-center flex-column"
       >
-        <h1 style="font-size: 100px" class="fw-bold">Название очереди</h1>
+        <h1 style="font-size: 100px" class="fw-bold">
+          {{ freeTicket.get_queue_name }}
+        </h1>
         <h1 style="font-size: 100px">Ваша позиция в очереди</h1>
-        <!--        <h1 style="font-size: 200px">{{ freeTicket.ticket_number_verbose }}</h1>-->
-        <h1 style="font-size: 200px">2</h1>
-        <h1>Перед Вами - x человек</h1>
-        <h1>Дата и время</h1>
+        <h1 style="font-size: 200px">{{ freeTicket.ticket_number_verbose }}</h1>
+        <h1>Перед Вами - {{ ticketCountBefore }} чел.</h1>
+        <h1>
+          {{
+            new Date(freeTicket.date_time_created).toLocaleString("ru-RU", {
+              day: "numeric",
+              month: "long",
+              year: "numeric",
+              hour: "numeric",
+              minute: "numeric",
+              second: "numeric",
+            })
+          }}
+        </h1>
       </div>
     </div>
     <div v-else>
@@ -76,6 +88,7 @@ export default {
       BACKEND_HOST: import.meta.env.VITE_APP_BACKEND_HOST,
       BACKEND_PORT: import.meta.env.VITE_APP_BACKEND_PORT,
       freeTicket: null,
+      ticketCountBefore: null,
       interval: null,
     }
   },
@@ -97,17 +110,14 @@ export default {
       const response = await axios(
         `${import.meta.env.VITE_APP_BACKEND_PROTOCOL}://${import.meta.env.VITE_APP_BACKEND_HOST}:${import.meta.env.VITE_APP_BACKEND_PORT}/api/queues/${queueId}/get_next_free_ticket/`,
       )
-      this.freeTicket = response.data
+      this.freeTicket = response.data.ticket_data
+      this.ticketCountBefore = response.data.ticket_count_before
+
       setTimeout(() => {
         print()
         this.freeTicket = null
         this.interval = null
       }, 100)
-
-      // this.interval = setTimeout(() => {
-      //   this.freeTicket = null
-      //   this.interval = null
-      // }, 4000)
       this.isLoading = false
     },
   },

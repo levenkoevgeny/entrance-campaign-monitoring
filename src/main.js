@@ -47,7 +47,7 @@ axiosInstance.interceptors.response.use(
 const app = createApp(App).use(router).use(store)
 
 app.config.globalProperties.$axios = axiosInstance
-
+app.config.globalProperties.window = window
 app.mount("#app")
 
 export default app
