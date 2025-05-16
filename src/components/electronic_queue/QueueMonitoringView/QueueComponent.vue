@@ -46,8 +46,6 @@ export default {
       voice_15: window.speechSynthesis.getVoices()[100],
       timeInterval: null,
       loadDataInterval: null,
-      // speechSynthesis: window.speechSynthesis,
-      // voiceText: "",
     }
   },
   async created() {
@@ -77,12 +75,6 @@ export default {
       newListFromServer.results.map((item) => {
         if (!this.checkIfTicketListIncludeItem(oldTicketList, item)) {
           item.isNewTicket = true
-          // voice_text =
-          //   voice_text +
-          //   item.ticket_number_verbose +
-          //   " к окну " +
-          //   item.get_operator_workplace +
-          //   ". "
         }
       })
 
@@ -90,18 +82,6 @@ export default {
       // this.speak()
       this.isLoading = false
     },
-    // speak() {
-    //   // console.log("speak")
-    //   //
-    //   // console.log(window.speechSynthesis.getVoices())
-    //
-    //   this.utterance.lang = "ru-RU"
-    //   this.utterance.voice = this.voice_15
-    //   this.utterance.text = this.voiceText
-    //   console.log(this.voiceText)
-    //
-    //   this.speechSynthesis.speak(this.utterance)
-    // },
 
     checkIfTicketListIncludeItem(checkingArray, checkingItem) {
       return (
