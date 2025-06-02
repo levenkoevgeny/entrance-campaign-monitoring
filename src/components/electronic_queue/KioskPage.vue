@@ -11,16 +11,22 @@
   <div v-else>
     <div v-if="freeTicket">
       <div
-        style="height: 100vh"
+        style="height: 45em"
         class="d-flex justify-content-center align-items-center flex-column"
       >
-        <h1 style="font-size: 100px" class="fw-bold">
+        <h1 style="font-size: 5em" class="fw-bold text-center">
           {{ freeTicket.get_queue_name }}
         </h1>
-        <h1 style="font-size: 100px">Ваша позиция в очереди</h1>
-        <h1 style="font-size: 200px">{{ freeTicket.ticket_number_verbose }}</h1>
-        <h1>Перед Вами - {{ ticketCountBefore }} чел.</h1>
-        <h1>
+        <h1 style="font-size: 4em" class="text-center">
+          Ваша позиция в очереди
+        </h1>
+        <h1 style="font-size: 10em" class="fw-bold text-center">
+          {{ freeTicket.ticket_number_verbose }}
+        </h1>
+        <h1 class="text-center" style="font-size: 3em">
+          ПЕРЕД ВАМИ - {{ ticketCountBefore }} чел.
+        </h1>
+        <h1 class="text-center">
           {{
             new Date(freeTicket.date_time_created).toLocaleString("ru-RU", {
               day: "numeric",
@@ -117,7 +123,7 @@ export default {
         print()
         this.freeTicket = null
         this.interval = null
-      }, 100)
+      }, 1000)
       this.isLoading = false
     },
   },
