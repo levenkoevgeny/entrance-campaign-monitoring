@@ -3,6 +3,7 @@ import Monitoring from "@/components/monitoring/Monitoring.vue"
 import KioskPage from "@/components/electronic_queue/KioskPage.vue"
 import QueueMonitoringView from "@/components/electronic_queue/QueueMonitoringView/QueueMonitoringView.vue"
 import StartPage from "@/components/StartPage.vue"
+import QueueList from "@/components/electronic_queue/QueueMonitoringView/QueueList.vue"
 
 const routes = [
   {
@@ -15,14 +16,18 @@ const routes = [
     name: "monitoring",
     component: Monitoring,
   },
-
   {
     path: "/kiosk",
     name: "kiosk",
     component: KioskPage,
   },
   {
-    path: "/queue-monitoring",
+    path: "/queue-list",
+    name: "queue-list",
+    component: QueueList,
+  },
+  {
+    path: "/queue/:queue/monitoring",
     name: "queue-monitoring",
     component: QueueMonitoringView,
   },

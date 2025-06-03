@@ -17,7 +17,7 @@
       <br />
       <router-link
         class="list-group-item list-group-item-action rounded-1"
-        :to="{ name: 'queue-monitoring' }"
+        :to="{ name: 'queue-list' }"
       >
         Мониторинг электронной очереди
       </router-link>

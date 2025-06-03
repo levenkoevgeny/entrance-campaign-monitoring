@@ -32,6 +32,12 @@ import axios from "axios"
 export default {
   name: "QueueComponent",
   components: {},
+  props: {
+    queue: {
+      type: String,
+      required: true,
+    },
+  },
   data() {
     return {
       ticketsList: { count: 0, results: [], previous: null, next: null },
@@ -67,7 +73,7 @@ export default {
       this.isLoading = true
       let oldTicketList = this.ticketsList.results
       const response = await axios(
-        `${this.BACKEND_PROTOCOL}://${this.BACKEND_HOST}:${this.BACKEND_PORT}/api/tickets/?ticket_state=1`,
+        `${this.BACKEND_PROTOCOL}://${this.BACKEND_HOST}:${this.BACKEND_PORT}/api/tickets/?ticket_state=1&queue=${this.queue}`,
       )
       const newListFromServer = response.data
       this.ticketsList = newListFromServer

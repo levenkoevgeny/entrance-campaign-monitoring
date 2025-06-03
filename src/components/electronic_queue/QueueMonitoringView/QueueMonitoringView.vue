@@ -30,7 +30,7 @@
       </div>
     </div>
     <div class="container">
-      <QueueComponent />
+      <QueueComponent :queue="queueId" />
     </div>
   </div>
 </template>
@@ -44,9 +44,11 @@ export default {
   data() {
     return {
       currentTime: new Date(),
+      queueId: null,
     }
   },
   async created() {
+    this.queueId = this.$route.params.queue
     setInterval(() => {
       this.currentTime = new Date()
     }, 1000)
