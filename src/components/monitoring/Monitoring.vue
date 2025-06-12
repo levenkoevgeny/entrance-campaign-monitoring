@@ -94,6 +94,9 @@
 <script>
 export default {
   name: "Monitoring",
+  data() {
+    return { timeInterval: null }
+  },
   components: {},
   created() {
     const urlArray = [
@@ -105,11 +108,14 @@ export default {
     let index
     let increment = 0
 
-    setInterval(() => {
+    this.timeInterval = setInterval(() => {
       index = increment % urlArray.length
       this.$refs.iframe.src = urlArray[index]
       increment = increment + 1
     }, 5000)
+  },
+  unmounted() {
+    clearInterval(this.timeInterval)
   },
 }
 </script>
