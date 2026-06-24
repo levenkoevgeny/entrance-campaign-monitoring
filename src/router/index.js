@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from "vue-router"
 import Monitoring from "@/components/monitoring/Monitoring.vue"
 import KioskPage from "@/components/electronic_queue/KioskPage.vue"
+import MonitoringSite from "@/components/monitoring-site/MonitoringSite.vue"
 import QueueMonitoringView from "@/components/electronic_queue/QueueMonitoringView/QueueMonitoringView.vue"
 import StartPage from "@/components/StartPage.vue"
 import QueueList from "@/components/electronic_queue/QueueMonitoringView/QueueList.vue"
@@ -15,6 +16,11 @@ const routes = [
     path: "/monitoring",
     name: "monitoring",
     component: Monitoring,
+  },
+  {
+    path: "/monitoring-web/:facultyId",
+    name: "monitoring-site",
+    component: MonitoringSite,
   },
   {
     path: "/kiosk",

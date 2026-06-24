@@ -17,6 +17,13 @@
       <br />
       <router-link
         class="list-group-item list-group-item-action rounded-1"
+        :to="{ name: 'monitoring-site', params: { facultyId: 'fp' } }"
+      >
+        Мониторинг вступительной кампании (ФП на сайт)
+      </router-link>
+      <br />
+      <router-link
+        class="list-group-item list-group-item-action rounded-1"
         :to="{ name: 'queue-list' }"
       >
         Мониторинг электронной очереди

@@ -2,25 +2,46 @@
   <div>
     <div class="container">
       <div class="my-5"></div>
-      <table class="table" style="font-size: 50px">
-        <thead>
-          <tr>
-            <th class="text-center">Номер талона</th>
-            <th class="text-center">Оператор</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for="ticket in ticketsList.results" :key="ticket.id">
-            <td
-              :class="{ 'new-ticket-pulsate': ticket.isNewTicket }"
-              class="text-center"
-            >
-              {{ ticket.ticket_number_verbose }}
-            </td>
-            <td class="text-center">{{ ticket.get_operator_workplace }}</td>
-          </tr>
-        </tbody>
-      </table>
+
+      <div
+        class="d-flex flex-wrap flex-column"
+        style="
+          font-size: 70px;
+          max-height: calc(100vh - 400px);
+          background-color: white;
+        "
+      >
+        <!--        <div class="d-flex flex-row">-->
+        <!--          <div class="text-center col-4">Номер талона</div>-->
+        <!--          <div class="text-center col-4"></div>-->
+        <!--          <div class="text-center col-4">Оператор</div>-->
+        <!--        </div>-->
+        <div
+          class="d-flex flex-row"
+          v-for="ticket in ticketsList.results"
+          :key="ticket.id"
+          style="height: 100px"
+        >
+          <div
+            class="text-center col-4"
+            :class="{ 'new-ticket-pulsate': ticket.isNewTicket }"
+          >
+            {{ ticket.ticket_number_verbose }}
+          </div>
+          <div
+            class="text-center col-4"
+            :class="{ 'new-ticket-pulsate': ticket.isNewTicket }"
+          >
+            &rarr;
+          </div>
+          <div
+            class="text-center col-4"
+            :class="{ 'new-ticket-pulsate': ticket.isNewTicket }"
+          >
+            {{ ticket.get_operator_workplace }}
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -37,6 +58,10 @@ export default {
       type: String,
       required: true,
     },
+    playNotification: {
+      type: Function,
+      required: true,
+    },
   },
   data() {
     return {
@@ -48,8 +73,6 @@ export default {
       BACKEND_HOST: import.meta.env.VITE_APP_BACKEND_HOST,
       BACKEND_PORT: import.meta.env.VITE_APP_BACKEND_PORT,
       currentTime: new Date(),
-      utterance: new SpeechSynthesisUtterance(),
-      voice_15: window.speechSynthesis.getVoices()[100],
       timeInterval: null,
       loadDataInterval: null,
     }
@@ -77,15 +100,16 @@ export default {
       )
       const newListFromServer = response.data
       this.ticketsList = newListFromServer
-      let voice_text = ""
+      let thereIsNewTicket = false
       newListFromServer.results.map((item) => {
         if (!this.checkIfTicketListIncludeItem(oldTicketList, item)) {
           item.isNewTicket = true
+          thereIsNewTicket = true
         }
       })
-
-      this.voiceText = voice_text
-      // this.speak()
+      if (thereIsNewTicket) {
+        this.playNotification()
+      }
       this.isLoading = false
     },
 
@@ -107,9 +131,10 @@ export default {
       0 0 8px #f0bc00;
   }
 }
+
 .new-ticket-pulsate {
   text-shadow: 0 -1px rgba(0, 0, 0, 0.1);
-  font-size: 50px;
+  font-size: 70px;
   text-decoration: none;
   -webkit-animation: pulsate 1.2s linear infinite;
   animation: pulsate 1.2s linear infinite;

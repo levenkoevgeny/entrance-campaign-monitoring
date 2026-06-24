@@ -1,16 +1,14 @@
 <template>
-  <!--  <div-->
-  <!--    style="height: 100vh"-->
-  <!--    class="d-flex justify-content-center align-items-center"-->
-  <!--  >-->
-  <!--    <div class="spinner-grow" style="width: 5rem; height: 5rem" role="status">-->
-  <!--      <span class="visually-hidden">Loading...</span>-->
-  <!--    </div>-->
-  <!--  </div>-->
   <div>
     <div
       class="amia-header p-3 d-flex flex-row justify-content-center align-items-center"
     >
+      <audio
+        ref="audioPlayer"
+        :src="audioSrc"
+        controls
+        style="display: none"
+      ></audio>
       <div class="me-auto">
         <h1>Электронная очередь</h1>
       </div>
@@ -29,8 +27,8 @@
         </div>
       </div>
     </div>
-    <div class="container">
-      <QueueComponent :queue="queueId" />
+    <div>
+      <QueueComponent :queue="queueId" :play-notification="playNotification" />
     </div>
   </div>
 </template>
@@ -45,6 +43,7 @@ export default {
     return {
       currentTime: new Date(),
       queueId: null,
+      audioSrc: "/notify.mp3",
     }
   },
   async created() {
@@ -53,7 +52,14 @@ export default {
       this.currentTime = new Date()
     }, 1000)
   },
-  methods: {},
+  mounted() {
+    this.audioPlayer = this.$refs.audioPlayer
+  },
+  methods: {
+    playNotification() {
+      this.audioPlayer.play()
+    },
+  },
 }
 </script>
 
