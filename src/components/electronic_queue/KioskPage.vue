@@ -104,12 +104,33 @@ export default {
   methods: {
     async loadData() {
       this.isLoading = true
-      const response = await axios(
-        `${import.meta.env.VITE_APP_BACKEND_PROTOCOL}://${import.meta.env.VITE_APP_BACKEND_HOST}:${import.meta.env.VITE_APP_BACKEND_PORT}/api/queues/`,
-      )
 
-      this.queueList = await response.data
-      this.isLoading = false
+      const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms))
+
+      while (true) {
+        try {
+          const response = await axios(
+            `${import.meta.env.VITE_APP_BACKEND_PROTOCOL}://${import.meta.env.VITE_APP_BACKEND_HOST}:${import.meta.env.VITE_APP_BACKEND_PORT}/api/queues/`,
+          )
+
+          if (response.status >= 200 && response.status < 300) {
+            this.queueList = await response.data
+            this.isLoading = false
+            return
+          }
+        } catch (error) {
+          console.error("Ошибка запроса, пробуем снова...", error.message)
+        }
+
+        await delay(3000)
+      }
+
+      // const response = await axios(
+      //   `${import.meta.env.VITE_APP_BACKEND_PROTOCOL}://${import.meta.env.VITE_APP_BACKEND_HOST}:${import.meta.env.VITE_APP_BACKEND_PORT}/api/queues/`,
+      // )
+      //
+      // this.queueList = await response.data
+      // this.isLoading = false
     },
     async getNextFreeTicket(queueId) {
       this.isLoading = true
