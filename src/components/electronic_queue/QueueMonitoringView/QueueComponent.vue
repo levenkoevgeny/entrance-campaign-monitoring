@@ -113,12 +113,8 @@ export default {
           item.isNewTicket = true
           thereIsNewTicket = true
           this.newTicketsArray = [...this.newTicketsArray, item]
-          // this.newTicketsArray.push(item)
         }
       })
-      // if (thereIsNewTicket) {
-      //   this.playNotification()
-      // }
       this.isLoading = false
     },
 
