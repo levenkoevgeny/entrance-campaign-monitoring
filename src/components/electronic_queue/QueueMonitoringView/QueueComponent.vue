@@ -123,7 +123,7 @@ export default {
             const text = `Талон ${ticket.ticket_number_verbose} к оператору ${ticket.get_operator_workplace}`
             const utterance = new SpeechSynthesisUtterance(text)
             utterance.lang = "ru-RU"
-            utterance.rate = 1.1
+            utterance.rate = 1.0
             utterance.pitch = 1.0
             const voices = speechSynthesis.getVoices()
             const ruVoice = voices.find((v) => v.lang.startsWith("ru"))
