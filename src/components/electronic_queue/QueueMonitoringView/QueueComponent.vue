@@ -49,6 +49,7 @@
 <script>
 import getQueueAPIInstance from "@/api/electronic_queue/queueAPI.js"
 import axios from "axios"
+import queue from "@/PromiseQueue.js"
 
 export default {
   name: "QueueComponent",
@@ -75,6 +76,7 @@ export default {
       currentTime: new Date(),
       timeInterval: null,
       loadDataInterval: null,
+      newTicketsArray: [],
       // speechInterval: null,
       // newTicketsArray: [],
     }
@@ -110,19 +112,50 @@ export default {
         if (!this.checkIfTicketListIncludeItem(oldTicketList, item)) {
           item.isNewTicket = true
           thereIsNewTicket = true
+          this.newTicketsArray = [...this.newTicketsArray, item]
           // this.newTicketsArray.push(item)
         }
       })
-      if (thereIsNewTicket) {
-        this.playNotification()
-      }
+      // if (thereIsNewTicket) {
+      //   this.playNotification()
+      // }
       this.isLoading = false
+    },
+
+    speech(speechArray) {
+      return this.playNotification().then(() => {
+        return speechArray.reduce((prev, ticket) => {
+          return prev.then(() => {
+            const text = `Талон ${ticket.ticket_number_verbose} к оператору ${ticket.get_operator_workplace}`
+            const utterance = new SpeechSynthesisUtterance(text)
+            utterance.lang = "ru-RU"
+            utterance.rate = 1.2
+            utterance.pitch = 1.0
+            const voices = speechSynthesis.getVoices()
+            const ruVoice = voices.find((v) => v.lang.startsWith("ru"))
+            if (ruVoice) utterance.voice = ruVoice
+            return new Promise((resolve) => {
+              utterance.onend = resolve
+              speechSynthesis.speak(utterance)
+            })
+          })
+        }, Promise.resolve())
+      })
     },
 
     checkIfTicketListIncludeItem(checkingArray, checkingItem) {
       return (
         checkingArray.filter((item) => item.id === checkingItem.id).length > 0
       )
+    },
+  },
+  watch: {
+    newTicketsArray: {
+      async handler(newValue, oldValue) {
+        const tickets = [...this.newTicketsArray]
+        this.newTicketsArray.length = 0
+        queue.add(() => this.speech(tickets))
+      },
     },
   },
 }

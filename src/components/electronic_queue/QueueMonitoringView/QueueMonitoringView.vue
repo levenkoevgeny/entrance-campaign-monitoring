@@ -57,7 +57,19 @@ export default {
   },
   methods: {
     playNotification() {
-      this.audioPlayer.play()
+      console.log("playNotification")
+      return new Promise((resolve, reject) => {
+        this.audioPlayer
+          .play()
+          .then(() => {
+            this.audioPlayer.onended = () => {
+              resolve(this.audioPlayer)
+            }
+          })
+          .catch((error) => {
+            reject(error)
+          })
+      })
     },
   },
 }
