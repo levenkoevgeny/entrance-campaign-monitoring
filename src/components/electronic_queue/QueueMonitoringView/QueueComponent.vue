@@ -77,8 +77,6 @@ export default {
       timeInterval: null,
       loadDataInterval: null,
       newTicketsArray: [],
-      // speechInterval: null,
-      // newTicketsArray: [],
     }
   },
   async created() {
@@ -90,9 +88,6 @@ export default {
     this.loadDataInterval = setInterval(async () => {
       await this.loadData()
     }, 5000)
-    // this.speechInterval = setInterval(async () => {
-    //   console.log(this.newTicketsArray.shift())
-    // }, 1000)
   },
   unmounted() {
     clearInterval(this.timeInterval)
@@ -106,26 +101,29 @@ export default {
         `${this.BACKEND_PROTOCOL}://${this.BACKEND_HOST}:${this.BACKEND_PORT}/api/tickets/?ticket_state=1&queue=${this.queue}`,
       )
       const newListFromServer = response.data
-      this.ticketsList = newListFromServer
-      let thereIsNewTicket = false
+      let arr = []
       newListFromServer.results.map((item) => {
         if (!this.checkIfTicketListIncludeItem(oldTicketList, item)) {
           item.isNewTicket = true
-          thereIsNewTicket = true
-          this.newTicketsArray = [...this.newTicketsArray, item]
+          arr.push(item)
+          this.newTicketsArray = [...arr]
         }
       })
       this.isLoading = false
     },
 
     speech(speechArray) {
+      speechArray.forEach((item) => {
+        this.ticketsList.results.push(item)
+      })
+
       return this.playNotification().then(() => {
         return speechArray.reduce((prev, ticket) => {
           return prev.then(() => {
             const text = `Талон ${ticket.ticket_number_verbose} к оператору ${ticket.get_operator_workplace}`
             const utterance = new SpeechSynthesisUtterance(text)
             utterance.lang = "ru-RU"
-            utterance.rate = 1.2
+            utterance.rate = 1.1
             utterance.pitch = 1.0
             const voices = speechSynthesis.getVoices()
             const ruVoice = voices.find((v) => v.lang.startsWith("ru"))
