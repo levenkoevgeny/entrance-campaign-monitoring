@@ -75,8 +75,8 @@ export default {
       currentTime: new Date(),
       timeInterval: null,
       loadDataInterval: null,
-      speechInterval: null,
-      newTicketsArray: [],
+      // speechInterval: null,
+      // newTicketsArray: [],
     }
   },
   async created() {
@@ -88,9 +88,9 @@ export default {
     this.loadDataInterval = setInterval(async () => {
       await this.loadData()
     }, 5000)
-    this.speechInterval = setInterval(async () => {
-      console.log(this.newTicketsArray.shift())
-    }, 1000)
+    // this.speechInterval = setInterval(async () => {
+    //   console.log(this.newTicketsArray.shift())
+    // }, 1000)
   },
   unmounted() {
     clearInterval(this.timeInterval)
@@ -110,7 +110,7 @@ export default {
         if (!this.checkIfTicketListIncludeItem(oldTicketList, item)) {
           item.isNewTicket = true
           thereIsNewTicket = true
-          this.newTicketsArray.push(item)
+          // this.newTicketsArray.push(item)
         }
       })
       if (thereIsNewTicket) {
